@@ -19,7 +19,7 @@ function makePageForEpisodes(episodeList) {
     rootElem.appendChild(imgEl);
     let summaryP = document.createElement("p");
     rootElem.appendChild(summaryP);
-    summaryP.textContent = episode.summary;
+    summaryP.innerHTML = episode.summary;
   }
 
 }
