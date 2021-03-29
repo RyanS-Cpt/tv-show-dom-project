@@ -17,7 +17,7 @@ function makePageForEpisodes(episodeList) {
       pEl.textContent = `${episode.name}, S0${episode.season}E0${episode.number}`;
     }else if(episode.season < 100 && episode.number < 10){
       pEl.textContent = `${episode.name}, S${episode.season}E0${episode.number}`;
-    }else if(episode.number < 100 && episode.season < 10){
+    }else if(episode.number < 100 && episode.season <10){
         pEl.textContent = `${episode.name}, S0${episode.season}E${episode.number}`;
     }
     let imgEl = document.createElement("img");
