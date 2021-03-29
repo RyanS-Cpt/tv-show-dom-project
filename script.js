@@ -7,13 +7,19 @@ function setup() {
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
     console.log(episodeList[0]);
-  rootElem.textContent = `Got ${episodeList.length} episode(s)`;
+  // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
   
 
   for (let episode of episodeList){
     let pEl = document.createElement("p");
     rootElem.appendChild(pEl);
-    pEl.textContent = `${episode.name}, season:${episode.season}, episode number:${episode.number}`;
+    if(episode.season <10 && episode.number < 10){
+      pEl.textContent = `${episode.name}, S0${episode.season}E0${episode.number}`;
+    }else if(episode.season < 100 && episode.number < 10){
+      pEl.textContent = `${episode.name}, S${episode.season}E0${episode.number}`;
+    }else if(episode.number < 100 && episode.season < 10){
+        pEl.textContent = `${episode.name}, S0${episode.season}E${episode.number}`;
+    }
     let imgEl = document.createElement("img");
     imgEl.src = episode.image.medium;
     rootElem.appendChild(imgEl);
