@@ -11,8 +11,9 @@ function makePageForEpisodes(episodeList) {
   
 
   for (let episode of episodeList){
+    let container = document.createElement("div");
     let pEl = document.createElement("p");
-    rootElem.appendChild(pEl);
+    rootElem.appendChild(container);
     if(episode.season <10 && episode.number < 10){
       pEl.textContent = `${episode.name}, S0${episode.season}E0${episode.number}`;
     }else if(episode.season < 100 && episode.number < 10){
@@ -26,6 +27,9 @@ function makePageForEpisodes(episodeList) {
     let summaryP = document.createElement("p");
     rootElem.appendChild(summaryP);
     summaryP.innerHTML = episode.summary;
+    container.appendChild(pEl);
+    container.appendChild(imgEl);
+    container.appendChild(summaryP);
   }
 
 }
