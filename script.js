@@ -8,7 +8,10 @@ function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
     console.log(episodeList[0]);
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
-  
+  // const searchBar = document.createElement("input");
+  // rootElem.appendChild(searchBar);
+  // const searchResult = document.createElement("p");
+  // rootElem.appendChild(searchResult);
 
   for (let episode of episodeList){
     let container = document.createElement("div");
@@ -31,6 +34,17 @@ function makePageForEpisodes(episodeList) {
     container.appendChild(imgEl);
     container.appendChild(summaryP);
   }
+
+  // add search input with type text and append to body - added in HTML
+  
+  // only matching name or summary should be included - ?filter with includes method
+  
+  // search should be case insensitive
+  // search input should be live/immediate response after keystroke - add event-listener 'input' to respond to every change in the value 
+  // display number of matching results next to search input
+  // if search input is cleared all episodes should be displayed
+
+
 
 }
 
