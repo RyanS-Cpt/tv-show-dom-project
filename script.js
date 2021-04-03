@@ -6,21 +6,30 @@ function setup() {
 
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
-    console.log(episodeList[0]);
+    // console.log(episodeList[0]);
   // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
+
   // add search input with type text and append to body - added in HTML
   let search = document.getElementById("search");
+  
   // only matching name or summary should be included - ?filter with includes method
-  if (search.value.length > 0){
-  let listFilter = episodeList.filter( el=> el.name.includes(search.value) || el.summary.includes(search.value))
+  // if (search.value.length > 0){
   // search should be case insensitive
+  function filter (array){
+    let result = search.value.toLowerCase();
+    console.log(result);
+    array.filter( el=> el.name.includes(result) || el.summary.includes(result));
+  }
   // search input should be live/immediate response after keystroke - add event-listener 'input' to respond to every change in the value 
   // display number of matching results next to search input
   // if search input is cleared all episodes should be displayed
-  }
-  else if (search.value.length === 0){
+  // }
+  // else if (search.value.length === 0){
 
     for (let episode of episodeList){
+
+      search.addEventListener("keyup", filter(episodeList));
+
       let container = document.createElement("div");
       let pEl = document.createElement("p");
       rootElem.appendChild(container);
@@ -41,7 +50,7 @@ function makePageForEpisodes(episodeList) {
       container.appendChild(imgEl);
       container.appendChild(summaryP);
     }
-  }
+  // }
 }
 
 window.onload = setup;
