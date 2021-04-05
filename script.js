@@ -14,7 +14,7 @@
 
 function setup() {
   // const allEpisodes = getAllEpisodes();
-console.log(allEpisodes);
+// console.log(allEpisodes);
 
   makePageForEpisodes(allEpisodes);
 }
@@ -31,6 +31,9 @@ search.addEventListener("input", ()=>{
         );
       });
       console.log(newList);
+        if (rootElem.firstChild !== searchResult){
+          rootElem.removeChild(container); // how do I access local variable
+        }
       makePageForEpisodes(newList);
       searchResult.innerText = `Displaying ${newList.length}/${allEpisodes.length}`;
     });
@@ -59,7 +62,9 @@ function makePageForEpisodes(episodeList) {
       container.appendChild(pEl);
       container.appendChild(imgEl);
       container.appendChild(summaryP);
+
     }
+
   }
 
 
