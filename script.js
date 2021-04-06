@@ -67,6 +67,7 @@ function makePageForEpisodes(episodeList) {
       } else if(newList.length > 1){
         console.log("I'm here", newList);
         console.log("I'm also here", episodeList);
+        // rootElem.removeChild(container);
         newList = episodeList;
 
       let container = document.createElement("div");
