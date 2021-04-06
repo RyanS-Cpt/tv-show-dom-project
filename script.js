@@ -36,12 +36,14 @@ search.addEventListener("input", ()=>{
       searchResult.innerText = `Displaying ${newList.length}/${allEpisodes.length}`;
     });
 
+    
 function makePageForEpisodes(episodeList) {
 
     for (let episode of episodeList){
 
       if(newList.length < 1){
         console.log("I'm not here", newList);
+        console.log("I'm here though", episodeList[episode]);
 
       let container = document.createElement("div");
       container.className = "container";
@@ -66,8 +68,9 @@ function makePageForEpisodes(episodeList) {
 
       } else if(newList.length > 1){
         console.log("I'm here", newList);
-        console.log("I'm also here", episodeList);
-        // rootElem.removeChild(container);
+        console.log("I'm also here", episodeList[episode]);
+        // let oldCont = document.getElementsByClassName("container"); 
+        // console.log(oldCont);
         newList = episodeList;
 
       let container = document.createElement("div");
