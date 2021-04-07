@@ -21,9 +21,51 @@ function setup() {
 
 let newList = [];
 
-search.addEventListener("input", ()=>{
+
+    
+function makePageForEpisodes(episodeList) {
+
+    for (let episode of episodeList){
+
+      // if(newList.length < 1){
+        console.log("I'm not here", newList);
+        
+
+      let container = document.createElement("div");
+      container.className = "container";
+      let pEl = document.createElement("p");
+      rootElem.appendChild(container);
+      if(episode.season <10 && episode.number < 10){
+        pEl.textContent = `${episode.name}, S0${episode.season}E0${episode.number}`;
+      }else if(episode.season < 100 && episode.number < 10){
+        pEl.textContent = `${episode.name}, S${episode.season}E0${episode.number}`;
+      }else if(episode.number < 100 && episode.season <10){
+          pEl.textContent = `${episode.name}, S0${episode.season}E${episode.number}`;
+      }
+      let imgEl = document.createElement("img");
+      imgEl.src = episode.image.medium;
+      rootElem.appendChild(imgEl);
+      let summaryP = document.createElement("p");
+      rootElem.appendChild(summaryP);
+      summaryP.innerHTML = episode.summary;
+      container.appendChild(pEl);
+      container.appendChild(imgEl);
+      container.appendChild(summaryP);
+
+    //   } else if(newList.length > 1){
+    //     console.log("I'm here", newList);
+    //     console.log("I'm also here", episodeList);
+
+      
+
+    // }
+  }
+
+  }
+
+  search.addEventListener("input", ()=>{
       let result = search.value.toLowerCase();
-      console.log(result);
+      console.log("This is the value of result:", result);
       newList = allEpisodes.filter( (el)=> {
         return (
               el.name.toLowerCase().includes(result) || 
@@ -31,73 +73,13 @@ search.addEventListener("input", ()=>{
         );
       });
       console.log(newList);
-  
-      makePageForEpisodes(newList);
+      console.log(rootElem.getElementsByClassName("container"));
+      // makePageForEpisodes(newList); might be triggering additional loops?
+      //  if(!allEpisodes.includes(newList)){
+      //     container.style.display = "none";
+      //   }
       searchResult.innerText = `Displaying ${newList.length}/${allEpisodes.length}`;
     });
-
-    
-function makePageForEpisodes(episodeList) {
-
-    for (let episode of episodeList){
-
-      if(newList.length < 1){
-        console.log("I'm not here", newList);
-        console.log("I'm here though", episodeList[episode]);
-
-      let container = document.createElement("div");
-      container.className = "container";
-      let pEl = document.createElement("p");
-      rootElem.appendChild(container);
-      if(episode.season <10 && episode.number < 10){
-        pEl.textContent = `${episode.name}, S0${episode.season}E0${episode.number}`;
-      }else if(episode.season < 100 && episode.number < 10){
-        pEl.textContent = `${episode.name}, S${episode.season}E0${episode.number}`;
-      }else if(episode.number < 100 && episode.season <10){
-          pEl.textContent = `${episode.name}, S0${episode.season}E${episode.number}`;
-      }
-      let imgEl = document.createElement("img");
-      imgEl.src = episode.image.medium;
-      rootElem.appendChild(imgEl);
-      let summaryP = document.createElement("p");
-      rootElem.appendChild(summaryP);
-      summaryP.innerHTML = episode.summary;
-      container.appendChild(pEl);
-      container.appendChild(imgEl);
-      container.appendChild(summaryP);
-
-      } else if(newList.length > 1){
-        console.log("I'm here", newList);
-        console.log("I'm also here", episodeList[episode]);
-        // let oldCont = document.getElementsByClassName("container"); 
-        // console.log(oldCont);
-        newList = episodeList;
-
-      let container = document.createElement("div");
-      container.className = "container";
-      let pEl = document.createElement("p");
-      rootElem.appendChild(container);
-      if(episode.season <10 && episode.number < 10){
-        pEl.textContent = `${episode.name}, S0${episode.season}E0${episode.number}`;
-      }else if(episode.season < 100 && episode.number < 10){
-        pEl.textContent = `${episode.name}, S${episode.season}E0${episode.number}`;
-      }else if(episode.number < 100 && episode.season <10){
-          pEl.textContent = `${episode.name}, S0${episode.season}E${episode.number}`;
-      }
-      let imgEl = document.createElement("img");
-      imgEl.src = episode.image.medium;
-      rootElem.appendChild(imgEl);
-      let summaryP = document.createElement("p");
-      rootElem.appendChild(summaryP);
-      summaryP.innerHTML = episode.summary;
-      container.appendChild(pEl);
-      container.appendChild(imgEl);
-      container.appendChild(summaryP);
-
-    }
-  }
-
-  }
 
 
 window.onload = setup;
