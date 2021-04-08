@@ -4,10 +4,12 @@
   const rootElem = document.getElementById("root");
   const allEpisodes = getAllEpisodes();
   let newList = [];
+  let selector = document.getElementById("selector");
 
 function setup() {
 
   makePageForEpisodes(allEpisodes);
+
 }
 
     
@@ -35,15 +37,31 @@ function makePageForEpisodes(episodeList) {
       container.appendChild(pEl);
       container.appendChild(imgEl);
       container.appendChild(summaryP);
-
    
   }
 
   }
-  
+
+  function addOption(episodeArray){
+    episodeArray.forEach(element => {
+        let optionElem = document.createElement('option');
+        selector.appendChild(optionElem);
+         if(element.season <10 && element.number < 10){
+        optionElem.textContent = `S0${element.season}E0${element.number} - ${element.name}`;
+      }else if(element.season < 100 && element.number < 10){
+        optionElem.textContent = `S${element.season}E0${element.number} - ${element.name}`;
+      }else if(element.number < 100 && element.season <10){
+          optionElem.textContent = `S0${element.season}E${element.number} - ${element.name}`;
+      }
+
+    });
+
+  }
+
+ addOption(allEpisodes);
+
   search.addEventListener("input", ()=>{
       let result = search.value.toLowerCase();
-      console.log("This is the value of result:", result);
       newList = allEpisodes.filter( (el)=> {
         return (
               el.name.toLowerCase().includes(result) || 
@@ -52,6 +70,8 @@ function makePageForEpisodes(episodeList) {
       });
      
       rootElem.innerHTML = "";
+      selector.innerHTML = "";
+      addOption(newList);
       makePageForEpisodes(newList);
       searchResult.innerText = `Displaying ${newList.length}/${allEpisodes.length}`;
     });
