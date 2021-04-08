@@ -3,33 +3,17 @@
   let searchResult = document.getElementById("searchResult");
   const rootElem = document.getElementById("root");
   const allEpisodes = getAllEpisodes();
-
-
-  // add search input with type text and append to body - added in HTML
-  // only matching name or summary should be included - ?filter with includes method - done in event listener
-  // search should be case insensitive
-  // search input should be live/immediate response after keystroke - add event-listener 'input' to respond to every change in the value 
-  // display number of matching results next to search input
-  // if search input is cleared all episodes should be displayed
+  let newList = [];
 
 function setup() {
-  // const allEpisodes = getAllEpisodes();
-// console.log(allEpisodes);
 
   makePageForEpisodes(allEpisodes);
 }
-
-let newList = [];
-
 
     
 function makePageForEpisodes(episodeList) {
 
     for (let episode of episodeList){
-
-      // if(newList.length < 1){
-        // console.log("I'm not here", newList);
-        
 
       let container = document.createElement("div");
       container.className = "container";
@@ -52,17 +36,11 @@ function makePageForEpisodes(episodeList) {
       container.appendChild(imgEl);
       container.appendChild(summaryP);
 
-    //   } else if(newList.length > 1){
-    //     console.log("I'm here", newList);
-    //     console.log("I'm also here", episodeList);
-
-      
-
-    // }
+   
   }
 
   }
-
+  
   search.addEventListener("input", ()=>{
       let result = search.value.toLowerCase();
       console.log("This is the value of result:", result);
@@ -72,12 +50,7 @@ function makePageForEpisodes(episodeList) {
               el.summary.toLowerCase().includes(result)
         );
       });
-      console.log(newList);
-      console.log(rootElem.getElementsByClassName("container")[0]);
-      // makePageForEpisodes(newList); might be triggering additional loops?
-      //  if(!allEpisodes.includes(newList)){
-      //     container.style.display = "none";
-      //   }
+     
       rootElem.innerHTML = "";
       makePageForEpisodes(newList);
       searchResult.innerText = `Displaying ${newList.length}/${allEpisodes.length}`;
