@@ -2,7 +2,7 @@
   let search = document.getElementById("search");
   let searchResult = document.getElementById("searchResult");
   const rootElem = document.getElementById("root");
-  let allEpisodes = getAllEpisodes();
+  const allEpisodes = getAllEpisodes();
 
 
   // add search input with type text and append to body - added in HTML
@@ -28,7 +28,7 @@ function makePageForEpisodes(episodeList) {
     for (let episode of episodeList){
 
       // if(newList.length < 1){
-        console.log("I'm not here", newList);
+        // console.log("I'm not here", newList);
         
 
       let container = document.createElement("div");
@@ -73,11 +73,13 @@ function makePageForEpisodes(episodeList) {
         );
       });
       console.log(newList);
-      console.log(rootElem.getElementsByClassName("container"));
+      console.log(rootElem.getElementsByClassName("container")[0]);
       // makePageForEpisodes(newList); might be triggering additional loops?
       //  if(!allEpisodes.includes(newList)){
       //     container.style.display = "none";
       //   }
+      rootElem.innerHTML = "";
+      makePageForEpisodes(newList);
       searchResult.innerText = `Displaying ${newList.length}/${allEpisodes.length}`;
     });
 
