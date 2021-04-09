@@ -6,6 +6,7 @@
   const allEpisodes = getAllEpisodes();
   let newList = [];
   let selector = document.getElementById("selector");
+  let selectedOpt = [];
 
 
 
@@ -49,6 +50,9 @@ function makePageForEpisodes(episodeList) {
   }
   //function to populate select element with options
   function addOption(episodeArray){
+      let defaultDisplay = document.createElement("option");
+      selector.appendChild(defaultDisplay);
+      defaultDisplay.innerText = "Display all";
     episodeArray.forEach(element => {
         let optionElem = document.createElement('option');
         selector.appendChild(optionElem);
@@ -66,6 +70,20 @@ function makePageForEpisodes(episodeList) {
 
   //Adds option element into select element
  addOption(allEpisodes);
+
+ //event listener for select
+selector.addEventListener("click", ()=>{
+    let selection = selector.value;
+    if(selection === "Display all"){
+      rootElem.innerHTML = "";
+      makePageForEpisodes(allEpisodes);
+    }
+    else{
+      selectedOpt = allEpisodes.filter(el=> selection.includes(el.name));
+      rootElem.innerHTML = "";
+      makePageForEpisodes(selectedOpt);
+    }
+});
 
 
 
