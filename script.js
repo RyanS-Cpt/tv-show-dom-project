@@ -69,7 +69,7 @@ function makePageForEpisodes(episodeList) {
 
 
 
-//event listener for search input
+//event listener for search input 
   search.addEventListener("input", ()=>{
       let result = search.value.toLowerCase();
       newList = allEpisodes.filter( (el)=> {
