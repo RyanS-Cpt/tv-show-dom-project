@@ -1,4 +1,5 @@
 //You can edit ALL of the code here
+//Global variables
   let search = document.getElementById("search");
   let searchResult = document.getElementById("searchResult");
   const rootElem = document.getElementById("root");
@@ -6,13 +7,18 @@
   let newList = [];
   let selector = document.getElementById("selector");
 
+
+
+  //function for window load event
 function setup() {
 
   makePageForEpisodes(allEpisodes);
 
 }
 
-    
+
+
+    //function to create and populate window with data from array
 function makePageForEpisodes(episodeList) {
 
     for (let episode of episodeList){
@@ -41,7 +47,7 @@ function makePageForEpisodes(episodeList) {
   }
 
   }
-
+  //function to populate select element with options
   function addOption(episodeArray){
     episodeArray.forEach(element => {
         let optionElem = document.createElement('option');
@@ -58,8 +64,12 @@ function makePageForEpisodes(episodeList) {
 
   }
 
+  //Adds option element into select element
  addOption(allEpisodes);
 
+
+
+//event listener for search input
   search.addEventListener("input", ()=>{
       let result = search.value.toLowerCase();
       newList = allEpisodes.filter( (el)=> {
@@ -76,6 +86,7 @@ function makePageForEpisodes(episodeList) {
       searchResult.innerText = `Displaying ${newList.length}/${allEpisodes.length}`;
     });
 
-
+    
+//event on page load
 window.onload = setup;
 
