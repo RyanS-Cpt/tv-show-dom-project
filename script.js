@@ -19,8 +19,9 @@
  //function for window load event
 function setup() {
     console.log(shows);
+
     // fetch to receive data
-    fetch("https://api.tvmaze.com/shows/82/episodes")
+    fetch(`https://api.tvmaze.com/shows/82/episodes`) //use string interpolation to change id of url here to selected show
     .then(response =>{
       if (response.status >= 200 && response.status < 300){
       return response.json();
@@ -30,25 +31,31 @@ function setup() {
     })
     .then( data => {
       apiArray = data;  
-      console.log("This is stored array of data",apiArray);
+      // console.log("This is stored array of data",apiArray);
     })
     .catch (error => alert("Error!"));
 
 //use setTimeout to delay this section
 setTimeout(function(){
  // makePageForEpisodes(allEpisodes);
-      console.log("This is the array at time of page load after timeout",apiArray);
+      // console.log("This is the array at time of page load after timeout",apiArray);
       makePageForEpisodes(apiArray);
 
       //Adds option element into select element
     //  addOption(allEpisodes);
     addOption(apiArray);
 
+    //add option for show select
+    showSelectOption(shows);
+
      //event listener for select
     selector.addEventListener("click", ()=>addEventOption(apiArray));
 
     //event listener for search input 
     search.addEventListener("input", ()=>searchEvent(apiArray));
+
+    //event listener for show select
+    // showSelect.addEventListener("change", ()=>showChanger(shows));
 
 },500);
      
@@ -122,7 +129,15 @@ function addEventOption (episodeArray) {
     }
 };
 
-
+//function for show select
+function showSelectOption (showArray){
+  // let sortedShows = showArray.sort(); need to sort thie array or grab the names and then sort them
+  showArray.forEach(show =>{
+    let showOpt = document.createElement("option");
+    showSelect.appendChild(showOpt);
+    showOpt.textContent = show.name;
+  })
+}
 
 
 
