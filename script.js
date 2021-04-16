@@ -3,24 +3,58 @@
   let search = document.getElementById("search");
   let searchResult = document.getElementById("searchResult");
   const rootElem = document.getElementById("root");
-  const allEpisodes = getAllEpisodes();
+  // const allEpisodes = getAllEpisodes();
   let newList = [];
   let selector = document.getElementById("selector");
   let selectedOpt = [];
+  let apiArray; // array to store data fetched
 
 
 
-  //function for window load event
+
+
+
+ //function for window load event
 function setup() {
+    // fetch to receive data
+    fetch("https://api.tvmaze.com/shows/82/episodes")
+    .then(response =>{
+      // console.log("This is response before .json",response);
+      return response.json();
+    })
+    .then( data => {
+      // console.log("This is data received after .json",data);
+      apiArray = data;  
+      console.log("This is stored array of data",apiArray);
+    })
 
-  makePageForEpisodes(allEpisodes);
+//use setTimeout to delay this section
+setTimeout(function(){
+ // makePageForEpisodes(allEpisodes);
+      console.log("This is the array at time of page load after timeout",apiArray);
+      makePageForEpisodes(apiArray);
 
-}
+      //Adds option element into select element
+    //  addOption(allEpisodes);
+    addOption(apiArray);
+
+     //event listener for select
+    selector.addEventListener("click", ()=>addEventOption(apiArray));
+
+    //event listener for search input 
+    search.addEventListener("input", ()=>searchEvent(apiArray));
+
+},500);
+     
+}   
+
 
 
 
     //function to create and populate window with data from array
 function makePageForEpisodes(episodeList) {
+
+    searchResult.innerText = `Displaying ${episodeList.length}/${episodeList.length}`;
 
     for (let episode of episodeList){
 
@@ -68,29 +102,29 @@ function makePageForEpisodes(episodeList) {
 
   }
 
-  //Adds option element into select element
- addOption(allEpisodes);
-
- //event listener for select
-selector.addEventListener("click", ()=>{
+  //function for select event
+function addEventOption (episodeArray) {
     let selection = selector.value;
     if(selection === "Display all"){
       rootElem.innerHTML = "";
-      makePageForEpisodes(allEpisodes);
+      makePageForEpisodes(episodeArray);
     }
     else{
-      selectedOpt = allEpisodes.filter(el=> selection.includes(el.name));
+      selectedOpt = episodeArray.filter(el=> selection.includes(el.name));
       rootElem.innerHTML = "";
       makePageForEpisodes(selectedOpt);
     }
-});
+};
 
 
 
-//event listener for search input 
-  search.addEventListener("input", ()=>{
+
+
+
+// function for search event
+function searchEvent(episodeArray){
       let result = search.value.toLowerCase();
-      newList = allEpisodes.filter( (el)=> {
+      newList = episodeArray.filter( (el)=> {
         return (
               el.name.toLowerCase().includes(result) || 
               el.summary.toLowerCase().includes(result)
@@ -101,10 +135,12 @@ selector.addEventListener("click", ()=>{
       selector.innerHTML = "";
       addOption(newList);
       makePageForEpisodes(newList);
-      searchResult.innerText = `Displaying ${newList.length}/${allEpisodes.length}`;
-    });
+      searchResult.innerText = `Displaying ${newList.length}/${episodeArray.length}`;
+    };
 
     
 //event on page load
 window.onload = setup;
+
+
 
