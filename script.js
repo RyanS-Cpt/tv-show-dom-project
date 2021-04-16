@@ -1,11 +1,13 @@
 //You can edit ALL of the code here
 //Global variables
-  let search = document.getElementById("search");
-  let searchResult = document.getElementById("searchResult");
+  const search = document.getElementById("search");
+  const searchResult = document.getElementById("searchResult");
   const rootElem = document.getElementById("root");
+  const selector = document.getElementById("episodeSelector");
+  const showSelect = document.getElementById("showSelector");
+  const shows = getAllShows();
   // const allEpisodes = getAllEpisodes();
   let newList = [];
-  let selector = document.getElementById("selector");
   let selectedOpt = [];
   let apiArray; // array to store data fetched
 
@@ -16,17 +18,21 @@
 
  //function for window load event
 function setup() {
+    console.log(shows);
     // fetch to receive data
     fetch("https://api.tvmaze.com/shows/82/episodes")
     .then(response =>{
-      // console.log("This is response before .json",response);
+      if (response.status >= 200 && response.status < 300){
       return response.json();
+      }else{
+        throw `Error ${response.status}:${response.statusText}`;
+      }
     })
     .then( data => {
-      // console.log("This is data received after .json",data);
       apiArray = data;  
       console.log("This is stored array of data",apiArray);
     })
+    .catch (error => alert("Error!"));
 
 //use setTimeout to delay this section
 setTimeout(function(){
