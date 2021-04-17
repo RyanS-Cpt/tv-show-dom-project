@@ -18,7 +18,7 @@
 
  //function for window load event
 function setup() {
-    console.log(shows);
+    // console.log(shows);
 
     // fetch to receive data
     fetch(`https://api.tvmaze.com/shows/82/episodes`) //use string interpolation to change id of url here to selected show
@@ -131,14 +131,15 @@ function addEventOption (episodeArray) {
 
 //function for show select
 function showSelectOption (showArray){
-  // let sortedShows = showArray.sort(); need to sort thie array or grab the names and then sort them
-  showArray.forEach(show =>{
-    let showOpt = document.createElement("option");
+  let sortedShows = [];
+  showArray.forEach(show => sortedShows.push(show.name)); //need to sort the array or grab the names and then sort them
+  console.log(sortedShows.sort());
+  sortedShows.forEach(show =>{
+    let showOpt = document.createElement("option"); //add id as value attribute to each option
     showSelect.appendChild(showOpt);
-    showOpt.textContent = show.name;
+    showOpt.textContent = show;
   })
 }
-
 
 
 
