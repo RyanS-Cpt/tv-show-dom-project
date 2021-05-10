@@ -16,12 +16,14 @@
 
 
 
+
+
  //function for window load event
 function setup() {
-    // console.log(shows);
+    console.log(shows);
 
     // fetch to receive data
-    fetch(`https://api.tvmaze.com/shows/582/episodes`) //use string interpolation to change id of url here to selected show
+    fetch(`https://api.tvmaze.com/shows/82/episodes`) //use string interpolation to change id of url here to selected show
     .then(response =>{
       if (response.status >= 200 && response.status < 300){
       return response.json();
@@ -57,7 +59,7 @@ setTimeout(function(){
     //event listener for show select
     // showSelect.addEventListener("change", ()=>showChanger(shows));
 
-},500);
+},1000);
      
 }   
 
@@ -157,7 +159,7 @@ function searchEvent(episodeArray){
               el.name.toLowerCase().includes(result) || 
               el.summary.toLowerCase().includes(result)
         )}else{
-          
+
           console.log(`No summary for ${el.name} `);
           return el.name.toLowerCase().includes(result);
           
@@ -173,7 +175,11 @@ function searchEvent(episodeArray){
 
     
 //event on page load
-window.onload = setup;
+// window.addEventListener( "onload", () => {  //  how do I integrate calling the window load and retrieve the value of show selected at the same time.
+                                              // or should the default value be the first show in alphabetical order for now?
+//     setup();
+// });
 
+window.onload = setup; 
 
 
