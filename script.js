@@ -87,7 +87,7 @@ function makePageForEpisodes(episodeList) {
       imgEl.src = episode.image.medium;
       rootElem.appendChild(imgEl);
       }else{
-        console.log("No image found");
+        console.log(`No image for ${episode.name}`);
       }
       
       let summaryP = document.createElement("p");
@@ -138,7 +138,7 @@ function addEventOption (episodeArray) {
 function showSelectOption (showArray){
   let sortedShows = [];
   showArray.forEach(show => sortedShows.push(show.name)); //need to sort the array or grab the names and then sort them
-  // console.log(sortedShows.sort());
+  sortedShows.sort();
   sortedShows.forEach(show =>{
     let showOpt = document.createElement("option"); //add id as value attribute to each option
     showSelect.appendChild(showOpt);
@@ -152,10 +152,16 @@ function showSelectOption (showArray){
 function searchEvent(episodeArray){
       let result = search.value.toLowerCase();
       newList = episodeArray.filter( (el)=> {
-        return (                                                 //include if statement to check for presence of summary as with img on line 86
+        if(el.summary){
+        return (                                       //include if statement to check for presence of summary as with img on line 86
               el.name.toLowerCase().includes(result) || 
               el.summary.toLowerCase().includes(result)
-        );
+        )}else{
+          
+          console.log(`No summary for ${el.name} `);
+          return el.name.toLowerCase().includes(result);
+          
+        }
       });
      
       rootElem.innerHTML = "";
