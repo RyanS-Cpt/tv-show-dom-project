@@ -21,7 +21,7 @@ function setup() {
     // console.log(shows);
 
     // fetch to receive data
-    fetch(`https://api.tvmaze.com/shows/82/episodes`) //use string interpolation to change id of url here to selected show
+    fetch(`https://api.tvmaze.com/shows/582/episodes`) //use string interpolation to change id of url here to selected show
     .then(response =>{
       if (response.status >= 200 && response.status < 300){
       return response.json();
@@ -83,8 +83,13 @@ function makePageForEpisodes(episodeList) {
           pEl.textContent = `${episode.name}, S0${episode.season}E${episode.number}`;
       }
       let imgEl = document.createElement("img");
+      if (episode.image){
       imgEl.src = episode.image.medium;
       rootElem.appendChild(imgEl);
+      }else{
+        console.log("No image found");
+      }
+      
       let summaryP = document.createElement("p");
       rootElem.appendChild(summaryP);
       summaryP.innerHTML = episode.summary;
@@ -133,7 +138,7 @@ function addEventOption (episodeArray) {
 function showSelectOption (showArray){
   let sortedShows = [];
   showArray.forEach(show => sortedShows.push(show.name)); //need to sort the array or grab the names and then sort them
-  console.log(sortedShows.sort());
+  // console.log(sortedShows.sort());
   sortedShows.forEach(show =>{
     let showOpt = document.createElement("option"); //add id as value attribute to each option
     showSelect.appendChild(showOpt);
@@ -147,7 +152,7 @@ function showSelectOption (showArray){
 function searchEvent(episodeArray){
       let result = search.value.toLowerCase();
       newList = episodeArray.filter( (el)=> {
-        return (
+        return (                                                 //include if statement to check for presence of summary as with img on line 86
               el.name.toLowerCase().includes(result) || 
               el.summary.toLowerCase().includes(result)
         );
