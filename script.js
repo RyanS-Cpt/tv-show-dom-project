@@ -21,14 +21,22 @@
  //function for window load event
 function setup() {
     console.log(shows);
+    //add option for show select
+    showSelectOption(shows);
 
+    let [showId] = shows.filter((show)=> {
+      if(showSelect.value === show.name)
+      // console.log(showSelect.value);
+      return show;
+    })
+    console.log(showId.id);
     // fetch to receive data
-    fetch(`https://api.tvmaze.com/shows/82/episodes`) //use string interpolation to change id of url here to selected show
+    fetch(`https://api.tvmaze.com/shows/${showId.id}/episodes`) //use string interpolation to change id of url here to selected show
     .then(response =>{
       if (response.status >= 200 && response.status < 300){
       return response.json();
       }else{
-        throw `Error ${response.status}:${response.statusText}`;
+        throw `Error + ${response.status}:${response.statusText}`;
       }
     })
     .then( data => {
@@ -47,8 +55,6 @@ setTimeout(function(){
     //  addOption(allEpisodes);
     addOption(apiArray);
 
-    //add option for show select
-    showSelectOption(shows);
 
      //event listener for select
     selector.addEventListener("click", ()=>addEventOption(apiArray));
