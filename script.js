@@ -20,7 +20,7 @@
 
  //function for window load event
 function setup() {
-    console.log(shows);
+    // console.log(shows);
     //add option for show select
     showSelectOption(shows);
 
@@ -29,7 +29,7 @@ function setup() {
       // console.log(showSelect.value);
       return show;
     })
-    console.log(showId.id);
+    // console.log(showId.id);
     // fetch to receive data
     fetch(`https://api.tvmaze.com/shows/${showId.id}/episodes`) //use string interpolation to change id of url here to selected show
     .then(response =>{
