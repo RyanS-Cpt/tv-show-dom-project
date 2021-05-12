@@ -24,36 +24,23 @@ function setup() {
     //add option for show select
     showSelectOption(shows);
 
-    let [showId] = shows.filter((show)=> {
-      if(showSelect.value === show.name)
-      // console.log(showSelect.value);
-      return show;
-    })
-    // console.log(showId.id);
-    // fetch to receive data
-    fetch(`https://api.tvmaze.com/shows/${showId.id}/episodes`) //use string interpolation to change id of url here to selected show
-    .then(response =>{
-      if (response.status >= 200 && response.status < 300){
-      return response.json();
-      }else{
-        throw `Error + ${response.status}:${response.statusText}`;
-      }
-    })
-    .then( data => {
-      apiArray = data;  
-      // console.log("This is stored array of data",apiArray);
-    })
-    .catch (error => alert("Error!"));
+  // console.log(showSelect.value);
+    let [showId] = shows;
+  //   .filter((show) => {
+  //     // console.log(show.id);
+  //   if (showSelect.value == show.id)
+    
+  //     return show;
+  // });
 
-//use setTimeout to delay this section
-setTimeout(function(){
+    fetchShowData(showId.id);
+
+
  // makePageForEpisodes(allEpisodes);
       // console.log("This is the array at time of page load after timeout",apiArray);
-      makePageForEpisodes(apiArray);
-
+     
       //Adds option element into select element
     //  addOption(allEpisodes);
-    addOption(apiArray);
 
 
      //event listener for select
@@ -63,14 +50,39 @@ setTimeout(function(){
     search.addEventListener("input", ()=>searchEvent(apiArray));
 
     //event listener for show select
-    // showSelect.addEventListener("change", ()=>showChanger(shows));
+    showSelect.addEventListener("change", ()=>fetchShowData(showSelect.value));
 
-},1000);
+
      
 }   
 
 
 
+
+function fetchShowData(showId) {
+
+  rootElem.innerHTML = "";
+
+
+  
+  // fetch to receive data
+  fetch(`https://api.tvmaze.com/shows/${showId}/episodes`) //use string interpolation to change id of url here to selected show
+    .then(response => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      } else {
+        throw `Error + ${response.status}:${response.statusText}`;
+      }
+    })
+    .then(data => {
+      apiArray = data;
+      makePageForEpisodes(apiArray);
+      addOption(apiArray);
+
+
+    })
+    .catch(error => alert("Error!"));
+}
 
     //function to create and populate window with data from array
 function makePageForEpisodes(episodeList) {
@@ -145,16 +157,23 @@ function addEventOption (episodeArray) {
 //function for show select
 function showSelectOption (showArray){
   let sortedShows = [];
-  showArray.forEach(show => sortedShows.push(show.name)); //need to sort the array or grab the names and then sort them
+  showArray.forEach(show => sortedShows.push({name: show.name, id: show.id})); //need to sort the array or grab the names and then sort them
   sortedShows.sort();
   sortedShows.forEach(show =>{
     let showOpt = document.createElement("option"); //add id as value attribute to each option
     showSelect.appendChild(showOpt);
-    showOpt.textContent = show;
+    showOpt.textContent = show.name;
+    // console.log(show);
+    showOpt.setAttribute("value",show.id);
   })
 }
 
+//Function to fetch show data based on showSelect value
+// function showChanger(selectValue){ 
 
+
+
+// }
 
 // function for search event
 function searchEvent(episodeArray){
@@ -180,11 +199,8 @@ function searchEvent(episodeArray){
     };
 
     
+
 //event on page load
-// window.addEventListener( "onload", () => {  //  how do I integrate calling the window load and retrieve the value of show selected at the same time.
-                                              // or should the default value be the first show in alphabetical order for now?
-//     setup();
-// });
 
 window.onload = setup; 
 
