@@ -10,6 +10,7 @@
   let newList = [];
   let selectedOpt = [];
   let apiArray; // array to store data fetched
+  let sortedShows = [];
 
 
 
@@ -24,25 +25,12 @@ function setup() {
     //add option for show select
     showSelectOption(shows);
 
-  // console.log(showSelect.value);
-    let [showId] = shows;
-  //   .filter((show) => {
-  //     // console.log(show.id);
-  //   if (showSelect.value == show.id)
-    
-  //     return show;
-  // });
+  
+    let [showId] = sortedShows;
+  
 
     fetchShowData(showId.id);
-
-
- // makePageForEpisodes(allEpisodes);
-      // console.log("This is the array at time of page load after timeout",apiArray);
      
-      //Adds option element into select element
-    //  addOption(allEpisodes);
-
-
      //event listener for select
     selector.addEventListener("click", ()=>addEventOption(apiArray));
 
@@ -51,7 +39,6 @@ function setup() {
 
     //event listener for show select
     showSelect.addEventListener("change", ()=>fetchShowData(showSelect.value));
-
 
      
 }   
@@ -77,6 +64,7 @@ function fetchShowData(showId) {
     .then(data => {
       apiArray = data;
       makePageForEpisodes(apiArray);
+      //Adds option element into select element
       addOption(apiArray);
 
 
@@ -156,24 +144,29 @@ function addEventOption (episodeArray) {
 
 //function for show select
 function showSelectOption (showArray){
-  let sortedShows = [];
+  
   showArray.forEach(show => sortedShows.push({name: show.name, id: show.id})); //need to sort the array or grab the names and then sort them
-  sortedShows.sort();
+  
+  sortedShows.sort(function (show1, show2){
+
+    var showX = show1.name.toLowerCase();
+    var showY = show2.name.toLowerCase();
+    if (showX < showY){return -1;}
+    if (showX > showY){return 1;}
+    return 0
+
+  });
+
   sortedShows.forEach(show =>{
+
     let showOpt = document.createElement("option"); //add id as value attribute to each option
     showSelect.appendChild(showOpt);
     showOpt.textContent = show.name;
-    // console.log(show);
     showOpt.setAttribute("value",show.id);
+
   })
 }
 
-//Function to fetch show data based on showSelect value
-// function showChanger(selectValue){ 
-
-
-
-// }
 
 // function for search event
 function searchEvent(episodeArray){
