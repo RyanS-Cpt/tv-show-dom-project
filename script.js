@@ -10,7 +10,7 @@
   let newList = [];
   let selectedOpt = [];
   let apiArray; // array to store data fetched
-  let sortedShows = [];
+  let sortedShowList = [];
 
 
 
@@ -26,10 +26,13 @@ function setup() {
     showSelectOption(shows);
 
   
-    let [showId] = sortedShows;
-  
+    let [showId] = sortedShowList;
+    displayAllShows(shows);
 
-    fetchShowData(showId.id);
+    //fetchShowData(showId.id); // replace this function with one that displays all shows and data - 
+    //"For each show, you must display at least name, image, summary, genres, status, rating, and runtime."
+    
+
      
      //event listener for select
     selector.addEventListener("click", ()=>addEventOption(apiArray));
@@ -145,9 +148,9 @@ function addEventOption (episodeArray) {
 //function for show select
 function showSelectOption (showArray){
   
-  showArray.forEach(show => sortedShows.push({name: show.name, id: show.id})); //need to sort the array or grab the names and then sort them
+  showArray.forEach(show => sortedShowList.push({name: show.name, id: show.id})); //need to sort the array or grab the names and then sort them
   
-  sortedShows.sort(function (show1, show2){
+  sortedShowList.sort(function (show1, show2){
 
     var showX = show1.name.toLowerCase();
     var showY = show2.name.toLowerCase();
@@ -157,7 +160,7 @@ function showSelectOption (showArray){
 
   });
 
-  sortedShows.forEach(show =>{
+  sortedShowList.forEach(show =>{
 
     let showOpt = document.createElement("option"); //add id as value attribute to each option
     showSelect.appendChild(showOpt);
@@ -191,7 +194,43 @@ function searchEvent(episodeArray){
       searchResult.innerText = `Displaying ${newList.length}/${episodeArray.length}`;
     };
 
+    // function to create show site
+    function displayAllShows (showArr){
+
+      rootElem.innerHTML = "";
+
+      let sortedShows = showArr.sort(function (show1, show2){
+
+        var showX = show1.name.toLowerCase();
+        var showY = show2.name.toLowerCase();
+        if (showX < showY){return -1;}
+        if (showX > showY){return 1;}
+        return 0
+
+    });
     
+    sortedShows.forEach( show =>{
+
+      let showDiv = document.createElement("div");
+      rootElem.appendChild(showDiv);
+
+      let showName = document.createElement("h3")
+      showDiv.appendChild(showName);
+      showName.textContent = show.name;
+
+      let showImg = document.createElement("img");
+      showDiv.appendChild(showImg);
+      if (show.image){
+      showImg.src = show.image.medium;
+      }else{console.log(`No image for ${show.name}`);}
+
+      let showSummary = document.createElement("p");
+      showDiv.appendChild(showSummary);
+      showSummary.innerHTML = show.summary;
+
+    })
+    }
+
 
 //event on page load
 
