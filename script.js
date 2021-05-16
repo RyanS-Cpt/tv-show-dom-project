@@ -15,27 +15,25 @@
 
 
 
-
-
-
-
  //function for window load event
 function setup() {
     // console.log(shows);
+
     //add option for show select
     showSelectOption(shows);
 
   
-    let [showId] = sortedShowList;
+   // let [showId] = sortedShowList; no longer required
+
+   //rendering all shows into the DOM
     displayAllShows(shows);
 
     //fetchShowData(showId.id); // replace this function with one that displays all shows and data - 
-    //"For each show, you must display at least name, image, summary, genres, status, rating, and runtime."
-    
 
+    //"For each show, you must display at least name, image, summary, genres, status, rating, and runtime."
      
      //event listener for select
-    selector.addEventListener("click", ()=>addEventOption(apiArray));
+    selector.addEventListener("change", ()=>addEventOption(apiArray));
 
     //event listener for search input 
     search.addEventListener("input", ()=>searchEvent(apiArray));
@@ -53,8 +51,15 @@ function fetchShowData(showId) {
 
   rootElem.innerHTML = "";
 
+  if(showSelect.value === "Display All"){
 
-  
+    displayAllShows(shows);
+    searchResult.innerText = `Displaying ${shows.length}/${shows.length}`;
+    selector.innerHTML = "";
+
+  }
+  else{
+
   // fetch to receive data
   fetch(`https://api.tvmaze.com/shows/${showId}/episodes`) //use string interpolation to change id of url here to selected show
     .then(response => {
@@ -73,12 +78,13 @@ function fetchShowData(showId) {
 
     })
     .catch(error => alert("Error!"));
+  }
 }
 
     //function to create and populate window with data from array
 function makePageForEpisodes(episodeList) {
 
-    searchResult.innerText = `Displaying ${episodeList.length}/${episodeList.length}`;
+    searchResult.innerText = `Displaying ${episodeList.length}/${apiArray.length}`;
 
     for (let episode of episodeList){
 
@@ -148,6 +154,10 @@ function addEventOption (episodeArray) {
 //function for show select
 function showSelectOption (showArray){
   
+  let defaultDisplay = document.createElement("option");
+  defaultDisplay.innerText = "Display All";
+  showSelect.appendChild(defaultDisplay);
+
   showArray.forEach(show => sortedShowList.push({name: show.name, id: show.id})); //need to sort the array or grab the names and then sort them
   
   sortedShowList.sort(function (show1, show2){
@@ -217,6 +227,9 @@ function searchEvent(episodeArray){
       let showName = document.createElement("h3")
       showDiv.appendChild(showName);
       showName.textContent = show.name;
+      showName.addEventListener("click", ()=>{
+        showSelect.value = show.name;
+        fetchShowData(show.id)});
 
       let showImg = document.createElement("img");
       showDiv.appendChild(showImg);
@@ -228,7 +241,34 @@ function searchEvent(episodeArray){
       showDiv.appendChild(showSummary);
       showSummary.innerHTML = show.summary;
 
-    })
+      let genreHeading = document.createElement("small");
+      showDiv.appendChild(genreHeading);
+
+      let genreList = document.createElement("ul");
+      showDiv.appendChild(genreList);
+      genreHeading.innerText = "Genre(s)";
+
+
+      for (let item of show.genres){
+      let genreItem = document.createElement("li");
+      genreList.appendChild(genreItem);
+      genreItem.innerText = item;
+      }
+
+      let showRating = document.createElement("small");
+      showDiv.appendChild(showRating);
+      showRating.innerText = `Rating: ${show.rating.average}`
+
+      let showStatus = document.createElement("small");
+      showDiv.appendChild(showStatus);
+      showStatus.innerText = `Status: ${show.status}`;
+
+      let showRunTime = document.createElement("small");
+      showDiv.appendChild(showRunTime);
+      showRunTime.innerText = `Runtime: ${show.runtime}Min`;
+
+    });
+
     }
 
 

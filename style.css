@@ -13,3 +13,9 @@ img {
 /* .container {
   display: block;
 } */
+li{
+  list-style-type: none;
+}
+small{
+  display: block;
+}
