@@ -11,9 +11,7 @@
   let selectedOpt = [];
   let apiArray; // array to store data fetched
   let sortedShowList = [];
-
-
-
+  let showDisplayBtn = document.getElementById("display-shows");
 
  //function for window load event
 function setup() {
@@ -22,11 +20,13 @@ function setup() {
     //add option for show select
     showSelectOption(shows);
 
+
   
    // let [showId] = sortedShowList; no longer required
 
    //rendering all shows into the DOM
     displayAllShows(shows);
+    showDisplayBtn.addEventListener("click", ()=> displayAllShows(shows));
 
     //fetchShowData(showId.id); // replace this function with one that displays all shows and data - 
 
