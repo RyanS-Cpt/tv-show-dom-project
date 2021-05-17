@@ -26,7 +26,14 @@ function setup() {
 
    //rendering all shows into the DOM
     displayAllShows(shows);
-    showDisplayBtn.addEventListener("click", ()=> displayAllShows(shows));
+
+    showDisplayBtn.addEventListener("click", ()=> {
+      displayAllShows(shows)
+      showSelect.value = "Display All";
+      selector.value = "";
+      search.removeEventListener("input", ()=>searchEvent(apiArray));
+      search.addEventListener("input", ()=>searchEvent(shows));
+    });
 
     //fetchShowData(showId.id); // replace this function with one that displays all shows and data - 
 
@@ -189,7 +196,13 @@ function searchEvent(episodeArray){
         return (                                       //include if statement to check for presence of summary as with img on line 86
               el.name.toLowerCase().includes(result) || 
               el.summary.toLowerCase().includes(result)
-        )}else{
+        )}else if(el.summary && el.genres){
+          return(
+             el.name.toLowerCase().includes(result) || 
+              el.summary.toLowerCase().includes(result)||
+              el.genres.toLowerCase().includes(result)
+          )
+        }else{
 
           console.log(`No summary for ${el.name} `);
           return el.name.toLowerCase().includes(result);
@@ -199,10 +212,16 @@ function searchEvent(episodeArray){
      
       rootElem.innerHTML = "";
       selector.innerHTML = "";
+      if(showSelect.value === "Display All"){
+        displayAllShows(newList);
+        showSelectOption(newList);
+      }else{
       addOption(newList);
       makePageForEpisodes(newList);
+      }
       searchResult.innerText = `Displaying ${newList.length}/${episodeArray.length}`;
     };
+
 
     // function to create show site
     function displayAllShows (showArr){
