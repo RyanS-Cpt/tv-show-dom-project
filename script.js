@@ -42,6 +42,7 @@ const rootElem = document.getElementById("root");
 const searchResult = document.getElementById("searchResult");
 function fetchShowData(showId) {
 	rootElem.innerHTML = "";
+	selector.innerHTML = "";
 
 	if (showSelect.value === "Display All") {
 		displayAllShows(shows);
