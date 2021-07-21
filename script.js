@@ -1,22 +1,13 @@
 //You can edit ALL of the code here
-//Global variables
-const search = document.getElementById("search");
-const searchResult = document.getElementById("searchResult");
-const rootElem = document.getElementById("root");
-const selector = document.getElementById("episodeSelector");
-const showSelect = document.getElementById("showSelector");
-const shows = getAllShows();
-// const allEpisodes = getAllEpisodes();
-let newList = [];
-let selectedOpt = [];
-let apiArray; // array to store data fetched
-let sortedShowList = [];
-let showDisplayBtn = document.getElementById("display-shows");
 
 //function for window load event
+const shows = getAllShows();
+const search = document.getElementById("search");
+const selector = document.getElementById("episodeSelector");
+const showSelect = document.getElementById("showSelector");
+let apiArray; // array to store data fetched
+let showDisplayBtn = document.getElementById("display-shows");
 function setup() {
-	// console.log(shows);
-
 	//add option for show select
 	showSelectOption(shows);
 
@@ -47,6 +38,8 @@ function setup() {
 	showSelect.addEventListener("change", () => fetchShowData(showSelect.value));
 }
 
+const rootElem = document.getElementById("root");
+const searchResult = document.getElementById("searchResult");
 function fetchShowData(showId) {
 	rootElem.innerHTML = "";
 
@@ -106,6 +99,7 @@ function makePageForEpisodes(episodeList) {
 		container.appendChild(summaryP);
 	}
 }
+
 //function to populate select element with options
 function addOption(episodeArray) {
 	let defaultDisplay = document.createElement("option");
@@ -125,6 +119,7 @@ function addOption(episodeArray) {
 }
 
 //function for select event
+let selectedOpt = [];
 function addEventOption(episodeArray) {
 	let selection = selector.value;
 	if (selection === "Display all") {
@@ -138,6 +133,7 @@ function addEventOption(episodeArray) {
 }
 
 //function for show select
+let sortedShowList = [];
 function showSelectOption(showArray) {
 	let defaultDisplay = document.createElement("option");
 	defaultDisplay.innerText = "Display All";
@@ -166,6 +162,8 @@ function showSelectOption(showArray) {
 		showOpt.setAttribute("value", show.id);
 	});
 }
+
+let newList = [];
 
 // function for search event
 function searchEvent(episodeArray) {
