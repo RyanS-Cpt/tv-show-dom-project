@@ -1,3 +1,21 @@
 #root {
-  color: red;
+	max-width: 100vw;
+	color: black;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-column-gap: 2%;
+}
+img {
+	display: block;
+	width: 18vw;
+	height: 35vh;
+}
+/* .container {
+  display: block;
+} */
+li {
+	list-style-type: none;
+}
+small {
+	display: block;
 }
